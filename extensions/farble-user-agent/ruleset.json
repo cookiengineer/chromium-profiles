@@ -1,0 +1,64 @@
+[
+	{
+		"id": 1,
+		"priority": 1,
+		"action": {
+			"type": "modifyHeaders",
+			"requestHeaders": [
+				{
+					"header": "User-Agent",
+					"operation": "set",
+					"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.7827.54 Safari/537.36"
+				},
+				{
+					"header": "Sec-CH-UA",
+					"operation": "set",
+					"value": "\"Google Chrome\";v=\"149\", \"Chromium\";v=\"149\", \"Not/A)Brand\";v=\"24\""
+				},
+				{
+					"header": "Sec-CH-UA-Mobile",
+					"operation": "set",
+					"value": "?0"
+				},
+				{
+					"header": "Sec-CH-UA-Platform",
+					"operation": "set",
+					"value": "\"Windows\""
+				},
+				{
+					"header": "Sec-CH-UA-Platform-Version",
+					"operation": "set",
+					"value": "\"10.0.0\""
+				},
+				{
+					"header": "Sec-CH-UA-Arch",
+					"operation": "set",
+					"value": "\"x86\""
+				},
+				{
+					"header": "Sec-CH-UA-Bitness",
+					"operation": "set",
+					"value": "\"64\""
+				},
+				{
+					"header": "Sec-CH-UA-Model",
+					"operation": "set",
+					"value": "\"\""
+				}
+			]
+		},
+		"condition": {
+			"urlFilter": "*",
+			"resourceTypes": [
+				"main_frame",
+				"sub_frame",
+				"xmlhttprequest",
+				"script",
+				"image",
+				"font",
+				"stylesheet",
+				"other"
+			]
+		}
+	}
+]
