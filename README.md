@@ -12,6 +12,12 @@ environments where Microslop's O365 decides that blocking Linux users will incre
 - Bundles a Farble Clipboard extension
 
 
+### Installation
+
+```bash
+go install github.com/cookiengineer/chromium-profiles/cmds/chromium-profiles@latest;
+```
+
 ### Usage
 
 First setup is a little annoying, because Chromium's `--load-extension` parameter doesn't
