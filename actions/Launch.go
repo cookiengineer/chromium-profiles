@@ -9,7 +9,7 @@ import "strings"
 
 func Launch(name string) error {
 
-	sandbox := config.ProfilePath(name)
+	sandbox := config.Sandbox(name)
 
 	stat, err0 := os.Stat(sandbox)
 

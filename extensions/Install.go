@@ -6,7 +6,11 @@ import "os"
 import "path/filepath"
 import "strings"
 
-func CopyExtension(name string, target_root string) error {
+func Install(name string, target_root string, variant string) error {
+
+	if variant == "" {
+		variant = "win10-edge"
+	}
 
 	source_root := strings.TrimSpace(strings.ToLower(name))
 
@@ -23,6 +27,24 @@ func CopyExtension(name string, target_root string) error {
 				if entry.IsDir() {
 
 					return os.MkdirAll(target_path, 0755)
+
+				} else if filepath.Base(source_path) == "ruleset.json" {
+
+					source, err2 := CreateRuleset(variant)
+
+					if err2 == nil {
+
+						err3 := os.WriteFile(target_path, source, 0666)
+
+						if err3 == nil {
+							return nil
+						} else {
+							return err3
+						}
+
+					} else {
+						return err2
+					}
 
 				} else {
 

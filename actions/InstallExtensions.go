@@ -6,16 +6,16 @@ import "fmt"
 import "os"
 import "path/filepath"
 
-func InstallExtensions(name string) error {
+func InstallExtensions(name string, variant string) error {
 
-	root := config.ProfilePath(name)
+	root := config.Sandbox(name)
 	extension_root := filepath.Join(root, "chromium-extensions")
 
 	for _, name := range bundled_extensions {
 
 		target := filepath.Join(extension_root, name)
 
-		err := extensions.CopyExtension(name, target)
+		err := extensions.Install(name, target, variant)
 
 		if err == nil {
 			fmt.Fprintf(os.Stdout, "Installed Extension: %s\n", name)

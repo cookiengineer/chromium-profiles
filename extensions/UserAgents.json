@@ -1,0 +1,79 @@
+[{
+	"name": "win10-chrome",
+	"platform": {
+		"name": "Windows NT 10.0",
+		"version": "Win64",
+		"arch": "x64"
+	},
+	"engine": {
+		"name": "AppleWebKit",
+		"version": "537.36"
+	},
+	"browsers": [{
+		"name": "Chrome",
+		"version": "149.0.7827.54"
+	}, {
+		"name": "Safari",
+		"version": "537.36"
+	}]
+}, {
+	"name": "win10-edge",
+	"platform": {
+		"name": "Windows NT 10.0",
+		"version": "Win64",
+		"arch": "x64"
+	},
+	"engine": {
+		"name": "AppleWebKit",
+		"version": "537.36"
+	},
+	"browsers": [{
+		"name": "Chrome",
+		"version": "149.0.4022.8"
+	}, {
+		"name": "Safari",
+		"version": "537.36"
+	}, {
+		"name": "Edg",
+		"version": "149.0.4022.8"
+	}]
+}, {
+	"name": "win11-chrome",
+	"platform": {
+		"name": "Windows NT 10.0",
+		"version": "Win64",
+		"arch": "x64"
+	},
+	"engine": {
+		"name": "AppleWebKit",
+		"version": "537.36"
+	},
+	"browsers": [{
+		"name": "Chrome",
+		"version": "149.0.7827.54"
+	}, {
+		"name": "Safari",
+		"version": "537.36"
+	}]
+}, {
+	"name": "win11-edge",
+	"platform": {
+		"name": "Windows NT 10.0",
+		"version": "Win64",
+		"arch": "x64"
+	},
+	"engine": {
+		"name": "AppleWebKit",
+		"version": "537.36"
+	},
+	"browsers": [{
+		"name": "Chrome",
+		"version": "149.0.4022.8"
+	}, {
+		"name": "Safari",
+		"version": "537.36"
+	}, {
+		"name": "Edg",
+		"version": "149.0.4022.8"
+	}]
+}]

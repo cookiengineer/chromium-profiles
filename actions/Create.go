@@ -7,9 +7,13 @@ import "os/exec"
 import "path/filepath"
 import "time"
 
-func Create(name string) error {
+func Create(name string, variant string) error {
 
-	sandbox := config.ProfilePath(name)
+	if variant == "" {
+		variant = "win10-edge"
+	}
+
+	sandbox := config.Sandbox(name)
 	folders := []string{
 		filepath.Join(sandbox, "chromium"),
 		filepath.Join(sandbox, "chromium-data"),
@@ -24,51 +28,63 @@ func Create(name string) error {
 
 	}
 
-	fmt.Fprintf(os.Stdout, "Created Profile: %s\n", name)
+	err0 := os.WriteFile(filepath.Join(sandbox, ".variant"), []byte(variant), 0666)
 
-	err1 := InstallExtensions(name)
+	if err0 == nil {
 
-	if err1 == nil {
+		fmt.Fprintf(os.Stdout, "Created Profile: %s\n", name)
 
-		fmt.Fprint(os.Stdout, "\n\n\n")
-		fmt.Fprint(os.Stdout, "-> Go to chrome://extensions\n")
-		fmt.Fprint(os.Stdout, "-> Activate \"Developer Mode\"\n")
+		err1 := InstallExtensions(name, variant)
 
-		for _, extension := range bundled_extensions {
-			extension_dir := filepath.Join(sandbox, "chromium-extensions", extension)
-			fmt.Fprintf(os.Stdout, "-> Click on \"Load Unpacked\" and select \"%s\"\n", extension_dir)
-		}
+		if err1 == nil {
 
-		fmt.Fprint(os.Stdout, "\n\n\n")
-		time.Sleep(2 * time.Second)
+			fmt.Fprint(os.Stdout, "\n\n\n")
+			fmt.Fprint(os.Stdout, "-> Go to chrome://extensions\n")
+			fmt.Fprint(os.Stdout, "-> Activate \"Developer Mode\"\n")
 
-		profile_dir   := filepath.Join(sandbox, "chromium")
-		user_data_dir := filepath.Join(sandbox, "chromium-data")
+			for _, extension := range bundled_extensions {
 
-		cmd := exec.Command(
-			"chromium",
-			// "--headless=new",
-			"--no-first-run",
-			"--no-default-browser-check",
-			"--disable-gpu",
-			fmt.Sprintf("--profile-directory=%s", profile_dir),
-			fmt.Sprintf("--user-data-dir=%s", user_data_dir),
-			"chrome://extensions",
-		)
+				extension_dir := filepath.Join(sandbox, "chromium-extensions", extension)
 
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
+				fmt.Fprint(os.Stdout, "-> Click on \"Load Unpacked\"\n")
+				fmt.Fprintf(os.Stdout, "-> Select \"%s\"\n", extension_dir)
 
-		err2 := cmd.Run()
+			}
 
-		if err2 == nil {
-			return nil
+			fmt.Fprint(os.Stdout, "\n\n\n")
+			time.Sleep(2 * time.Second)
+
+			profile_dir   := filepath.Join(sandbox, "chromium")
+			user_data_dir := filepath.Join(sandbox, "chromium-data")
+
+			cmd := exec.Command(
+				"chromium",
+				// "--headless=new",
+				"--no-first-run",
+				"--no-default-browser-check",
+				"--disable-gpu",
+				fmt.Sprintf("--profile-directory=%s", profile_dir),
+				fmt.Sprintf("--user-data-dir=%s", user_data_dir),
+				"chrome://extensions",
+			)
+
+			cmd.Stdout = os.Stdout
+			cmd.Stderr = os.Stderr
+
+			err2 := cmd.Run()
+
+			if err2 == nil {
+				return nil
+			} else {
+				return fmt.Errorf("chromium failed: %s", err2.Error())
+			}
+
 		} else {
-			return fmt.Errorf("chromium failed: %s", err2.Error())
+			return err1
 		}
 
 	} else {
-		return err1
+		return err0
 	}
 
 }

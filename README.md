@@ -6,8 +6,9 @@ environments where Microslop's O365 decides that blocking Linux users will incre
 
 ### Features and Opinions
 
-- Chromium profile management CLI tool
-- Allows multiple profiles in `~/Work/Sandboxes/<name>` for separated environments
+- Chromium Profile management tool
+- Allows multiple Profiles in `~/Work/Sandboxes/<name>`
+- Allows multiple Profile variants (e.g. `win10-edge`, `win11-chrome` etc)
 - Bundles a Farble User Agent extension
 - Bundles a Farble Clipboard extension
 
