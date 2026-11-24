@@ -12,7 +12,11 @@ func showUsage() {
 	fmt.Fprint(os.Stdout, "\n")
 	fmt.Fprint(os.Stdout, "  chromium-profiles list\n")
 	fmt.Fprint(os.Stdout, "  chromium-profiles create <name> <variant>\n")
-	fmt.Fprint(os.Stdout, "  chromium-profiles launch <name>\n")
+	fmt.Fprint(os.Stdout, "  chromium-profiles launch <name> [--debug]\n")
+	fmt.Fprint(os.Stdout, "\n")
+	fmt.Fprint(os.Stdout, "Flags:\n")
+	fmt.Fprint(os.Stdout, "\n")
+	fmt.Fprint(os.Stdout, "--debug    Enables remote debugging on port 9222\n")
 	fmt.Fprint(os.Stdout, "\n")
 	fmt.Fprint(os.Stdout, "Variants:\n")
 	fmt.Fprint(os.Stdout, "\n")
@@ -40,7 +44,7 @@ func main() {
 
 			if len(os.Args) == 4 {
 
-				name    := strings.TrimSpace(os.Args[2])
+				name := strings.TrimSpace(os.Args[2])
 				variant := strings.TrimSpace(os.Args[3])
 
 				if extensions.IsVariant(variant) {
@@ -61,9 +65,9 @@ func main() {
 
 			} else if len(os.Args) == 3 {
 
-				name    := strings.TrimSpace(os.Args[2])
+				name := strings.TrimSpace(os.Args[2])
 				variant := "win10-edge"
-				err     := actions.Create(name, variant)
+				err := actions.Create(name, variant)
 
 				if err == nil {
 					os.Exit(0)
@@ -79,9 +83,22 @@ func main() {
 
 		case "launch":
 
-			if len(os.Args) == 3 {
+			debug := false
+			name := ""
 
-				err := actions.Launch(os.Args[2])
+			for _, arg := range os.Args[2:] {
+
+				if arg == "--debug" || arg == "-debug" {
+					debug = true
+				} else if name == "" {
+					name = strings.TrimSpace(arg)
+				}
+
+			}
+
+			if name != "" {
+
+				err := actions.Launch(name, debug)
 
 				if err == nil {
 					os.Exit(0)
@@ -108,4 +125,3 @@ func main() {
 	}
 
 }
-

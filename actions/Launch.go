@@ -7,7 +7,7 @@ import "os/exec"
 import "path/filepath"
 import "strings"
 
-func Launch(name string) error {
+func Launch(name string, debug bool) error {
 
 	sandbox := config.Sandbox(name)
 
@@ -15,20 +15,28 @@ func Launch(name string) error {
 
 	if err0 == nil && stat.IsDir() {
 
-		profile_dir    := filepath.Join(sandbox, "chromium")
-		user_data_dir  := filepath.Join(sandbox, "chromium-data")
+		profile_dir := filepath.Join(sandbox, "chromium")
+		user_data_dir := filepath.Join(sandbox, "chromium-data")
 		extension_dirs := make([]string, 0)
 
 		for _, extension := range bundled_extensions {
 			extension_dirs = append(extension_dirs, filepath.Join(sandbox, "chromium-extensions", extension))
 		}
 
-		cmd := exec.Command(
-			"chromium",
+		args := []string{
 			fmt.Sprintf("--profile-directory=%s", profile_dir),
 			fmt.Sprintf("--user-data-dir=%s", user_data_dir),
 			fmt.Sprintf("--load-extension=%s", strings.Join(extension_dirs, ",")),
-		)
+		}
+
+		if debug {
+			args = append(args,
+				"--remote-debugging-port=9222",
+				"--restore-last-session",
+			)
+		}
+
+		cmd := exec.Command("chromium", args...)
 
 		return cmd.Start()
 
